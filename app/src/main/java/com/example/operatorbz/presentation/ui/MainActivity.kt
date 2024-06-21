@@ -1,4 +1,4 @@
-package com.example.operatorbz.presentation
+package com.example.operatorbz.presentation.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

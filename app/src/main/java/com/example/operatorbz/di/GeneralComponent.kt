@@ -1,6 +1,6 @@
 package com.example.operatorbz.di
 
-import com.example.operatorbz.presentation.GeneralViewModel
+import com.example.operatorbz.presentation.view_model.GeneralViewModel
 import dagger.Subcomponent
 
 @Subcomponent

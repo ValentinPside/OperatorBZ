@@ -11,6 +11,8 @@ interface AppComponent {
 
     fun generalComponent(): GeneralComponent
 
+    fun textComponent(): TextComponent
+
     @Component.Factory
     interface AppComponentFactory {
         fun create(@BindsInstance context: Context): AppComponent
