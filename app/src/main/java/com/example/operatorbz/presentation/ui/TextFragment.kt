@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.operatorbz.R
 import com.example.operatorbz.app.App
@@ -23,7 +24,7 @@ class TextFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModels<TextViewModel> {
         Factory {
-            App.appComponent.generalComponent().viewModel()
+            App.appComponent.textComponent().viewModel()
         }
     }
 
@@ -38,15 +39,19 @@ class TextFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val itemId = requireArguments().getString("item_id")
+        val itemId = requireArguments().getString("item_id")!!
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.observeUi().collect { state ->
+                    viewModel.getItem(itemId)
                     binding.specificToolbars.title = state.item.name
                     setImage(state.item.icon)
-                    binding.textView2.text = state.item.text
+                    binding.textView2.text = getString(state.item.text)
                 }
             }
+        }
+        binding.specificToolbars.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
@@ -55,8 +60,8 @@ class TextFragment : Fragment() {
         _binding = null
     }
 
-    private fun setImage(imgId: String) {
-        Glide.with(this)
+    private fun setImage(imgId: Int) {
+        Glide.with(binding.imageView)
             .load(imgId)
             .placeholder(R.drawable.placeholder)
             .error(R.drawable.placeholder)

@@ -1,6 +1,7 @@
 package com.example.operatorbz.presentation.view_model
 
 import androidx.lifecycle.ViewModel
+import com.example.operatorbz.R
 import com.example.operatorbz.domain.Item
 import com.example.operatorbz.domain.Repository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,5 +35,5 @@ class TextViewModel @Inject constructor(
 
 
 data class ViewStateText(
-    val item: Item = Item("", "", "", "")
+    val item: Item = Item("", "", 0, R.string.bisText)
 )
