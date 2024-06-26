@@ -18,6 +18,7 @@ import com.example.operatorbz.databinding.FragmentGeneralBinding
 import com.example.operatorbz.presentation.ItemAdapter
 import com.example.operatorbz.presentation.view_model.GeneralViewModel
 import com.example.operatorbz.utils.Factory
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
 
 class GeneralFragment : Fragment() {
@@ -52,6 +53,22 @@ class GeneralFragment : Fragment() {
                 }
             }
         }
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab != null) {
+                    when(tab.position){
+                        0 -> viewModel.setFirstList()
+                        1 -> viewModel.setSecondList()
+                    }
+                }
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+        })
     }
 
     override fun onDestroyView() {

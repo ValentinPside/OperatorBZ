@@ -6,15 +6,31 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.bumptech.glide.Glide
 import com.example.operatorbz.R
 import com.example.operatorbz.databinding.RvItemBinding
 import com.example.operatorbz.domain.Item
 
 class ItemAdapter (private val onClick: (String) -> Unit) :
-    ListAdapter<Item, ItemAdapter.ViewHolder>(Diffutil()) {
+    ListAdapter<Item, ItemAdapter.ViewHolder>(DiffUtilItem()) {
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val binding by viewBinding{ RvItemBinding.bind(itemView) }
+
+        fun bind(item: Item) {
+            binding.textView.text = item.name
+            Glide.with(binding.imageView)
+                .load(item.icon)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+                .circleCrop()
+                .into(binding.imageView)
+            binding.root.setOnClickListener{
+                onClick.invoke(item.id)
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_item, parent, false)
@@ -22,21 +38,11 @@ class ItemAdapter (private val onClick: (String) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val binding = RvItemBinding.bind(holder.itemView)
         val item = currentList[position]
-        binding.textView.text = item.name
-        Glide.with(binding.imageView)
-            .load(item.icon)
-            .placeholder(R.drawable.placeholder)
-            .error(R.drawable.placeholder)
-            .circleCrop()
-            .into(binding.imageView)
-        binding.root.setOnClickListener{
-            onClick.invoke(item.id)
-        }
+        holder.bind(item)
     }
 
-    private class Diffutil : DiffUtil.ItemCallback<Item>() {
+    private class DiffUtilItem: DiffUtil.ItemCallback<Item>() {
 
         override fun areItemsTheSame(oldItem: Item, newItem: Item): Boolean {
             return oldItem.id == newItem.id

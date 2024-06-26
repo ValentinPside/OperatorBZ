@@ -6,12 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.example.operatorbz.R
 import com.example.operatorbz.app.App
 import com.example.operatorbz.databinding.FragmentTextBinding
 import com.example.operatorbz.presentation.view_model.TextViewModel
 import com.example.operatorbz.utils.Factory
+import kotlinx.coroutines.launch
 
 class TextFragment : Fragment() {
 
@@ -34,7 +38,16 @@ class TextFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val text = requireArguments().getString("item_id")
+        val itemId = requireArguments().getString("item_id")
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.observeUi().collect { state ->
+                    binding.specificToolbars.title = state.item.name
+                    setImage(state.item.icon)
+                    binding.textView2.text = state.item.text
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -44,10 +57,9 @@ class TextFragment : Fragment() {
 
     private fun setImage(imgId: String) {
         Glide.with(this)
-            .load("https://github.com/iMofas/ios-android-test/raw/master/$imgId")
+            .load(imgId)
             .placeholder(R.drawable.placeholder)
             .error(R.drawable.placeholder)
-            .circleCrop()
             .into(binding.imageView)
     }
 }
