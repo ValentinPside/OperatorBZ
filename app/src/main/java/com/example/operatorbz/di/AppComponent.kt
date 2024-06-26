@@ -6,7 +6,10 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component
+@Component(modules = [
+    RepositoryModule::class
+]
+)
 interface AppComponent {
 
     fun generalComponent(): GeneralComponent

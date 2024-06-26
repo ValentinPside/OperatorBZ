@@ -6,11 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.operatorbz.R
 import com.example.operatorbz.app.App
 import com.example.operatorbz.databinding.FragmentGeneralBinding
+import com.example.operatorbz.presentation.ItemAdapter
 import com.example.operatorbz.presentation.view_model.GeneralViewModel
 import com.example.operatorbz.utils.Factory
+import kotlinx.coroutines.launch
 
 class GeneralFragment : Fragment() {
 
@@ -22,13 +30,7 @@ class GeneralFragment : Fragment() {
         }
     }
 
-    private val DOZ_TEXT = resources.getString(R.string.bisText)
-    private val FSD_TEXT = resources.getString(R.string.fsdText)
-    private val PH_TEXT = resources.getString(R.string.phText)
-    private val WASH_TEXT = resources.getString(R.string.washText)
-    private val CONSERVATION_TEXT = resources.getString(R.string.conservationText)
-    private val OSV_FILTERS_TEXT = resources.getString(R.string.osvFiltersText)
-    private val CONTACTORS_TEXT = resources.getString(R.string.contactorsText)
+    private lateinit var adapter: ItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +43,15 @@ class GeneralFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecycler()
+        viewModel.setFirstList()
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.observeUi().collect { state ->
+                    adapter.submitList(state.items)
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -48,5 +59,15 @@ class GeneralFragment : Fragment() {
         _binding = null
     }
 
+    private fun setupRecycler() {
+        adapter = ItemAdapter {
+            findNavController().navigate(
+                R.id.action_generalFragment_to_textFragment,
+                bundleOf("item_id" to it)
+            )
+        }
+        binding.itemsRecycler.adapter = adapter
+        binding.itemsRecycler.layoutManager = LinearLayoutManager(requireContext())
+    }
 
 }
