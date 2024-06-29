@@ -14,7 +14,7 @@ class RepositoryImpl @Inject constructor(): Repository {
             Item("A3", R.string.biocidName, R.drawable.biocid, R.string.biocidText),
             Item("A4", R.string.limeName, R.drawable.citric, R.string.limeText),
             Item("A5", R.string.energoName, R.drawable.hidro, R.string.energoText),
-            Item("A6", R.string.contactorsName, R.drawable.bis_for_cons, R.string.conservationText),
+            Item("A6", R.string.conservationName, R.drawable.bis_for_cons, R.string.conservatoinText),
             Item("A7", R.string.natrWashName, R.drawable.natr_wash, R.string.natrWashText))
     }
 
