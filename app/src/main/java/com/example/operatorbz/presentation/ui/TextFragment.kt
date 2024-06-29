@@ -44,7 +44,7 @@ class TextFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.observeUi().collect { state ->
                     viewModel.getItem(itemId)
-                    binding.specificToolbars.title = state.item.name
+                    binding.specificToolbars.title = getString(state.item.name)
                     setImage(state.item.icon)
                     binding.textView2.text = getString(state.item.text)
                 }

@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">OperatorBZ</string>
 
+    <string name="string_holder">string_holder</string>
+
     <string name="bisName">Раствор бисульфита</string>
 
     <string name="natrName">Раствор едкого натра</string>
@@ -15,6 +17,8 @@
 
     <string name="limeName">Раствор лимонной кислоты</string>
 
+    <string name="natrWashName">Раствор едкого натра для хим.мойки</string>
+
     <string name="bisText">5кг бисульфита на 100л пермиата</string>
 
     <string name="natrText">5кг едкого натра на 100л пермиата</string>
@@ -28,6 +32,8 @@
     <string name="conservatoinText">1кг бисульфита на 100л пермиата</string>
 
     <string name="limeText">3кг лимонной кислоты на 100л пермиата при температуре 35 градусов</string>
+
+    <string name="natrWashText">150гр едкого натра на 100л пермиата при температуре 20 градусов</string>
 
     <string name="fsdName">Фильтры смешанного действия</string>
 

@@ -1,8 +1,10 @@
 package com.example.operatorbz.presentation
 
+import android.app.Application
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +21,7 @@ class ItemAdapter (private val onClick: (String) -> Unit) :
         private val binding by viewBinding{ RvItemBinding.bind(itemView) }
 
         fun bind(item: Item) {
-            binding.textView.text = item.name
+            binding.textView.text = getString(this.binding.root.context, item.name)
             Glide.with(binding.imageView)
                 .load(item.icon)
                 .placeholder(R.drawable.placeholder)

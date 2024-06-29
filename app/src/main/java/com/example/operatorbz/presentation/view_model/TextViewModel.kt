@@ -35,5 +35,5 @@ class TextViewModel @Inject constructor(
 
 
 data class ViewStateText(
-    val item: Item = Item("", "", 0, R.string.bisText)
+    val item: Item = Item("", R.string.string_holder, 0, R.string.string_holder)
 )
